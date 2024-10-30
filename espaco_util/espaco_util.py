@@ -5,7 +5,6 @@
 - Biblioteca pandas para manipulação de dados em Excel
 - Biblioteca openpyxl para leitura e escrita em Excel
 
-# Código:
 
 import tkinter as tk
 from tkinter import messagebox
@@ -107,6 +106,3 @@ btn_desalugar.grid(row=6, column=0)
 
 root.mainloop()
 
-# Observações:
-
-#- O arquivo Excel
