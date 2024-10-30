@@ -1,0 +1,265 @@
+import streamlit as st
+
+st.title("Título da aplicação")
+st.write("Um texto utilçizando write :heart:")
+
+st.text("um texto utilizando o elemento text")
+st.header("Seção")
+
+st.subheader("Sub seção")
+st.header("Segunda seção")
+
+st.header("Markdown")
+st.markdown("""
+# Titula primeiro nível
+## Título segundo nível
+- item 1
+- item 2            
+- item 3
+
+```python
+nome = 'Rildo'
+print (nome)
+```          
+""")
+
+st.header("CÓDIGOS")
+st.code("""
+nome = 'Rildo'
+print (nome)        
+""")
+
+st.header("st.text_input")
+nome = st.text_input("Digite o seu nome")
+st.text(nome)
+
+
+st.header("st.text_input")
+nome = st.text_input("Digite o seu nome: ",
+                     key="input_nome",
+                     max_chars=15)
+
+
+if nome:
+    st.write(f"Você digitou o seu: {nome}")
+else:
+    st.write("Nenhum nome foi digitado! ")
+
+    st.header("st.number_imput")
+    numero = st.number_input("Entre com um número",
+                              key="input_numero",
+                              min_value=10,
+                              max_value=100,
+                              step=20)
+    st.write(numero)
+
+st.header("st.date_input")
+data  = st.date_input("Entre com uma data:",
+                      key="input_data",
+                      format="DD/MM/YYYY")
+st.text(type(data))
+st.text(data.strftime(format="%d/%m/%Y"))
+    
+### Tem que colocar o key tb.
+
+st.header("st.button")
+
+data = st.date_input("Entre com uma data:",
+                      format="DD/MM/YYYY")
+
+nome = st.text_input("Digite seu nome:")
+
+
+botao = st.button("Clique aqui para cadasrar:",
+          key="btn_cadastrar")
+
+if botao:
+    st.write("O Botão foi Clicado!")
+    st.write(f"Nome: {nome}")
+    st.write(f"Data: {data.strftime(format='%d/%m/%Y')}")
+
+
+st.header("st.selectbox")
+cor = st.selectbox("Selecione uma cor:", ["vermelho","azul","verde"])
+
+st.write(cor)
+
+st.header("st.multiselect")
+cores = st.multiselect("Selecione as cores",
+                        ["vermelho","azul","verde"])
+
+st.write(cores)
+
+st.header("st.radio")
+
+opcao = st.radio("Escolha uma opção",
+                 ["Masculino", "Feminino", "Outros"],)
+st.text(opcao)
+
+## Tem que colocar format data .
+st.header("st.checkbox")
+st.markdown("""
+# Contrat de trabalho
+            
+Nos termos descritos acima, se você marcar como aceito,
+poderá realizar o seu cadastro.                     
+""")
+
+aceite = st.checkbox("Eu aceito os termos", value=False)
+st.text(aceite)
+
+if aceite:
+    nome = st.text_input("Digite o seu nome:")
+    idade = st.number_input("Digite a sua idade:")
+    data = st.date_input("Entre com uma data:")
+    st.button("Cadastrar") 
+_____________________________________________________________________
+import streamlit as st
+
+    
+st.header("Elementos de status")
+
+botao = st.button("Clique para ver o statur")
+
+if botao:
+    st.success("Cadastro realizado com sucesso!")
+    st.balloons()
+______________________________________________________________________
+import streamlit as st
+
+    
+st.header("Elementos de status")
+
+botao = st.button("Clique para ver o statur")
+
+if botao:
+    st.success("Cadastro realizado com sucesso!")
+    st.snow()
+________________________________________________________________________________
+import streamlit as st
+import pandas as pd
+
+#Decorando essa função @st.cache_data  (Decoreito)
+@st.cache_data
+def carregar_dados():
+    dados = pd.read_csv("acidentes.csv")
+    return dados
+
+dados = carregar_dados()
+
+tabela_dados = st.dataframe(dados)
+carregar = st.button("Carregar dados")
+_____________________________________________________________________
+
+Requisitos:
+
+- Python 3.x
+- Biblioteca tkinter para interface gráfica
+- Biblioteca pandas para manipulação de dados em Excel
+- Biblioteca openpyxl para leitura e escrita em Excel
+
+Código:
+
+import tkinter as tk
+from tkinter import messagebox
+import pandas as pd
+from openpyxl import load_workbook
+
+# Carregar o arquivo Excel
+wb = load_workbook(filename='salas.xlsx')
+sheet = wb['Salas']
+
+# Criar a janela principal
+root = (link unavailable)()
+root.title("Aluguel de Salas")
+
+# Criar os botões
+btn_adicionar = tk.Button(root, text="Adicionar Sala", command=lambda: adicionar_sala())
+btn_remover = tk.Button(root, text="Remover Sala", command=lambda: remover_sala())
+btn_listar = tk.Button(root, text="Listar Salas", command=lambda: listar_salas())
+btn_alugar = tk.Button(root, text="Alugar Sala", command=lambda: alugar_sala())
+btn_desalugar = tk.Button(root, text="Desalugar Sala", command=lambda: desalugar_sala())
+
+# Criar os labels e entries
+label_nome = tk.Label(root, text="Nome da Sala:")
+entry_nome = tk.Entry(root)
+label_tamanho = tk.Label(root, text="Tamanho da Sala:")
+entry_tamanho = tk.Entry(root)
+label_capacidade = tk.Label(root, text="Capacidade da Sala:")
+entry_capacidade = tk.Entry(root)
+label_preco = tk.Label(root, text="Preço da Sala:")
+entry_preco = tk.Entry(root)
+
+# Funções para os botões
+def adicionar_sala():
+    nome = entry_nome.get()
+    tamanho = entry_tamanho.get()
+    capacidade = entry_capacidade.get()
+    preco = entry_preco.get()
+    sheet.append([nome, tamanho, capacidade, preco, False])
+    wb.save('salas.xlsx')
+    messagebox.showinfo("Sucesso", "Sala adicionada com sucesso!")
+
+def remover_sala():
+    nome = entry_nome.get()
+    for row in sheet.rows:
+        if row[0].value == nome:
+            sheet.delete_rows(row[0].row)
+            wb.save('salas.xlsx')
+            messagebox.showinfo("Sucesso", "Sala removida com sucesso!")
+            return
+    messagebox.showerror("Erro", "Sala não encontrada.")
+
+def listar_salas():
+    salas = []
+    for row in sheet.rows:
+        salas.append([row[0].value, row[1].value, row[2].value, row[3].value, row[4].value])
+    messagebox.showinfo("Salas", str(salas))
+
+def alugar_sala():
+    nome = entry_nome.get()
+    for row in sheet.rows:
+        if row[0].value == nome:
+            if row[4].value == False:
+                row[4].value = True
+                wb.save('salas.xlsx')
+                messagebox.showinfo("Sucesso", "Sala alugada com sucesso!")
+            else:
+                messagebox.showerror("Erro", "Sala já está alugada.")
+            return
+    messagebox.showerror("Erro", "Sala não encontrada.")
+
+def desalugar_sala():
+    nome = entry_nome.get()
+    for row in sheet.rows:
+        if row[0].value == nome:
+            if row[4].value == True:
+                row[4].value = False
+                wb.save('salas.xlsx')
+                messagebox.showinfo("Sucesso", "Sala desalugada com sucesso!")
+            else:
+                messagebox.showerror("Erro", "Sala não está alugada.")
+            return
+    messagebox.showerror("Erro", "Sala não encontrada.")
+
+# Organizar os widgets
+label_nome.grid(row=0, column=0)
+entry_nome.grid(row=0, column=1)
+label_tamanho.grid(row=1, column=0)
+entry_tamanho.grid(row=1, column=1)
+label_capacidade.grid(row=2, column=0)
+entry_capacidade.grid(row=2, column=1)
+label_preco.grid(row=3, column=0)
+entry_preco.grid(row=3, column=1)
+btn_adicionar.grid(row=4, column=0)
+btn_remover.grid(row=4, column=1)
+btn_listar.grid(row=5, column=0)
+btn_alugar.grid(row=5, column=1)
+btn_desalugar.grid(row=6, column=0)
+
+root.mainloop()
+
+Observações:
+
+- O arquivo Excel
+
